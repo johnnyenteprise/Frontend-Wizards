@@ -3,13 +3,12 @@
 A clean, modern, and fully accessible Todo/Task Card component built with semantic HTML, WCAG AA compliance, and comprehensive test IDs for automated testing.
 
 ## Features
-
-✅ **Testable** - All required `data-testid` attributes for automated test suites
-✅ **Accessible** - WCAG AA compliant with full keyboard navigation
-✅ **Responsive** - Works seamlessly from 320px to 1200px
-✅ **Semantic HTML** - Proper use of `<article>`, `<time>`, `<button>`, `<input>`, etc.
-✅ **Live Updates** - Time-remaining updates every 60 seconds
-✅ **Interactive** - Toggle completion, edit/delete actions
+ **Testable** - All required `data-testid` attributes for automated test suites
+ **Accessible** - WCAG AA compliant with full keyboard navigation
+ **Responsive** - Works seamlessly from 320px to 1200px
+ **Semantic HTML** - Proper use of `<article>`, `<time>`, `<button>`, `<input>`, etc.
+ **Live Updates** - Time-remaining updates every 60 seconds
+ **Interactive** - Toggle completion, edit/delete actions
 
 ## Test IDs
 
