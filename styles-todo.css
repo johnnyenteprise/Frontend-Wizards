@@ -1,0 +1,571 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Card Root */
+[data-testid="test-todo-card"] {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    border-left: 4px solid #667eea;
+}
+
+[data-testid="test-todo-card"]:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+[data-testid="test-todo-card"].completed {
+    background: #f8f9fa;
+    border-left-color: #48bb78;
+}
+
+[data-testid="test-todo-card"].overdue {
+    border-left-color: #f56565;
+}
+
+[data-testid="test-todo-card"].high-priority {
+    border-left-color: #ed8936;
+}
+
+/* View Mode */
+.view-mode {
+    display: block;
+}
+
+.view-mode.hidden {
+    display: none;
+}
+
+/* Edit Mode */
+.edit-mode {
+    display: none;
+}
+
+.edit-mode.visible {
+    display: block;
+}
+
+/* Priority Indicator */
+[data-testid="test-todo-priority-indicator"] {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+[data-testid="test-todo-priority-indicator"].low {
+    background: #48bb78;
+    box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.2);
+}
+
+[data-testid="test-todo-priority-indicator"].medium {
+    background: #ecc94b;
+    box-shadow: 0 0 0 2px rgba(236, 201, 75, 0.2);
+}
+
+[data-testid="test-todo-priority-indicator"].high {
+    background: #f56565;
+    box-shadow: 0 0 0 2px rgba(245, 101, 101, 0.2);
+}
+
+/* Overdue Indicator */
+[data-testid="test-todo-overdue-indicator"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    background: #fed7d7;
+    color: #742a2a;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+[data-testid="test-todo-overdue-indicator"].hidden {
+    display: none;
+}
+
+/* Title */
+[data-testid="test-todo-title"] {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 12px;
+    word-break: break-word;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+[data-testid="test-todo-card"].completed [data-testid="test-todo-title"] {
+    text-decoration: line-through;
+    color: #a0aec0;
+}
+
+/* Description */
+[data-testid="test-todo-description"] {
+    font-size: 0.95rem;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    word-break: break-word;
+    max-height: none;
+    overflow: visible;
+    transition: max-height 0.3s ease, overflow 0.3s ease;
+}
+
+[data-testid="test-todo-collapsible-section"].collapsed [data-testid="test-todo-description"] {
+    max-height: 80px;
+    overflow: hidden;
+    position: relative;
+}
+
+[data-testid="test-todo-collapsible-section"].collapsed [data-testid="test-todo-description"]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, white);
+}
+
+/* Expand Toggle */
+[data-testid="test-todo-expand-toggle"] {
+    background: none;
+    color: #667eea;
+    padding: 4px 8px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+[data-testid="test-todo-expand-toggle"]:hover {
+    color: #5568d3;
+}
+
+[data-testid="test-todo-expand-toggle"]:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+[data-testid="test-todo-expand-toggle"].hidden {
+    display: none;
+}
+
+/* Metadata Section */
+.metadata-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    align-items: center;
+}
+
+/* Priority Badge */
+[data-testid="test-todo-priority"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+[data-testid="test-todo-priority"].low {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+[data-testid="test-todo-priority"].medium {
+    background: #feebc8;
+    color: #7c2d12;
+}
+
+[data-testid="test-todo-priority"].high {
+    background: #feb2b2;
+    color: #742a2a;
+}
+
+/* Status Control (Dropdown) */
+[data-testid="test-todo-status-control"] {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+[data-testid="test-todo-status-control"]:hover {
+    border-color: #667eea;
+}
+
+[data-testid="test-todo-status-control"]:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Status Indicator Display */
+[data-testid="test-todo-status"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+[data-testid="test-todo-status"].pending {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
+[data-testid="test-todo-status"].in-progress {
+    background: #bee3f8;
+    color: #2c5282;
+}
+
+[data-testid="test-todo-status"].done {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+/* Date/Time Section */
+.date-time-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+}
+
+.date-time-section.overdue {
+    background: #fff5f5;
+    border-left-color: #f56565;
+}
+
+[data-testid="test-todo-due-date"],
+[data-testid="test-todo-time-remaining"] {
+    font-size: 0.9rem;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+[data-testid="test-todo-due-date"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+[data-testid="test-todo-time-remaining"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #667eea;
+}
+
+[data-testid="test-todo-time-remaining"].overdue {
+    color: #f56565;
+    font-weight: 600;
+}
+
+/* Checkbox */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+[data-testid="test-todo-complete-toggle"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #667eea;
+    flex-shrink: 0;
+}
+
+[data-testid="test-todo-complete-toggle"]:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+.checkbox-label {
+    font-weight: 500;
+    color: #2d3748;
+    user-select: none;
+    cursor: pointer;
+}
+
+/* Tags */
+[data-testid="test-todo-tags"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin-bottom: 16px;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #edf2f7;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #2d3748;
+    white-space: nowrap;
+}
+
+.tag-item::before {
+    content: '#';
+    color: #a0aec0;
+}
+
+/* Edit Form */
+[data-testid="test-todo-edit-form"] {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2d3748;
+}
+
+[data-testid="test-todo-edit-title-input"],
+[data-testid="test-todo-edit-description-input"],
+[data-testid="test-todo-edit-priority-select"],
+[data-testid="test-todo-edit-due-date-input"] {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+[data-testid="test-todo-edit-title-input"]:focus,
+[data-testid="test-todo-edit-description-input"]:focus,
+[data-testid="test-todo-edit-priority-select"]:focus,
+[data-testid="test-todo-edit-due-date-input"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+[data-testid="test-todo-edit-description-input"] {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+/* Buttons Container */
+.actions-section {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.edit-form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+button {
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+button:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+[data-testid="test-todo-edit-button"] {
+    background: #667eea;
+    color: white;
+}
+
+[data-testid="test-todo-edit-button"]:hover {
+    background: #5568d3;
+}
+
+[data-testid="test-todo-delete-button"] {
+    background: #fc8181;
+    color: white;
+}
+
+[data-testid="test-todo-delete-button"]:hover {
+    background: #f56565;
+}
+
+[data-testid="test-todo-save-button"] {
+    background: #48bb78;
+    color: white;
+}
+
+[data-testid="test-todo-save-button"]:hover {
+    background: #38a169;
+}
+
+[data-testid="test-todo-cancel-button"] {
+    background: #cbd5e0;
+    color: #2d3748;
+}
+
+[data-testid="test-todo-cancel-button"]:hover {
+    background: #a0aec0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .metadata-section {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    [data-testid="test-todo-edit-form"] {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-testid="test-todo-card"] {
+        padding: 16px;
+    }
+
+    [data-testid="test-todo-title"] {
+        font-size: 1.25rem;
+    }
+
+    [data-testid="test-todo-description"] {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+    }
+
+    .actions-section,
+    .edit-form-actions {
+        gap: 8px;
+    }
+
+    button {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    [data-testid="test-todo-edit-title-input"],
+    [data-testid="test-todo-edit-description-input"],
+    [data-testid="test-todo-edit-priority-select"],
+    [data-testid="test-todo-edit-due-date-input"] {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    [data-testid="test-todo-priority"],
+    [data-testid="test-todo-status"],
+    [data-testid="test-todo-status-control"] {
+        padding: 4px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 320px) {
+    [data-testid="test-todo-card"] {
+        padding: 12px;
+    }
+
+    [data-testid="test-todo-title"] {
+        font-size: 1.1rem;
+    }
+
+    [data-testid="test-todo-priority"],
+    [data-testid="test-todo-status"],
+    [data-testid="test-todo-status-control"] {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+
+    .tag-item {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
